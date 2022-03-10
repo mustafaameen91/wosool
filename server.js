@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { urlencoded } = require("express");
+const history = require("connect-history-api-fallback");
 
 app.use(cors());
 app.use(urlencoded({ extended: false }));
@@ -19,6 +20,15 @@ require("./app/routes/projectVehicle.routes.js")(app);
 require("./app/routes/report.routes.js")(app);
 require("./app/routes/subCategory.routes.js")(app);
 require("./app/routes/worker.routes.js")(app);
+
+const staticFileMiddleware = express.static(__dirname + "/dist");
+app.use(staticFileMiddleware);
+app.use(
+   history({
+      disableDotRule: true,
+      verbose: true,
+   })
+);
 
 app.listen(5520, () => {
    console.log("Server is running on port 5520");
