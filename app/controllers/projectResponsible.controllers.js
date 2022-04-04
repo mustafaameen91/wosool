@@ -8,7 +8,8 @@ exports.create = (req, res) => {
    }
 
    const projectResponsible = new ProjectResponsible({
-      projectResponsibleName: req.body.projectResponsibleName,
+      projectId: req.body.projectId,
+      userId: req.body.userId,
    });
 
    ProjectResponsible.create(projectResponsible, (err, data) => {
@@ -21,6 +22,13 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
    ProjectResponsible.getAll((err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByUserId = (req, res) => {
+   ProjectResponsible.findByIdUser(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

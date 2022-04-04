@@ -7,6 +7,8 @@ module.exports = (app) => {
 
    app.get("/api/projectResponsible/:id", projectResponsible.findOne);
 
+   app.get("/api/responsibleProjects/:id", projectResponsible.findOneByUserId);
+
    app.put("/api/projectResponsible/:id", projectResponsible.update);
 
    app.delete("/api/projectResponsible/:id", projectResponsible.delete);

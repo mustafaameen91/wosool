@@ -4,7 +4,6 @@ const User = function (user) {
    this.userName = user.userName;
    this.password = user.password;
    this.roleId = user.roleId;
-   this.sectionId = user.sectionId;
 };
 
 User.create = (newUser, result) => {
@@ -29,6 +28,19 @@ User.getAll = (result) => {
       }
 
       console.log("user: ", res);
+      result(null, res);
+   });
+};
+
+User.findByIdRole = (roleId, result) => {
+   sql.query(`SELECT * FROM user WHERE roleId = ${roleId}`, (err, res) => {
+      if (err) {
+         console.log("error: ", err);
+         result(err, null);
+         return;
+      }
+
+      console.log("found user: ", res);
       result(null, res);
    });
 };

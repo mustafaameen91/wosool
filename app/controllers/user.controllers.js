@@ -13,7 +13,6 @@ exports.create = (req, res) => {
       userName: req.body.userName,
       password: req.body.password,
       roleId: req.body.roleId,
-      sectionId: req.body.sectionId,
    });
 
    User.create(user, (err, data) => {
@@ -26,6 +25,13 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
    User.getAll((err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByRoleId = (req, res) => {
+   User.findByIdRole(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

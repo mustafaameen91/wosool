@@ -1,7 +1,8 @@
 const sql = require("./db.js");
 
 const ProjectResponsible = function (projectResponsible) {
-   this.projectResponsibleName = projectResponsible.projectResponsibleName;
+   this.projectId = projectResponsible.projectId;
+   this.userId = projectResponsible.userId;
 };
 
 ProjectResponsible.create = (newProjectResponsible, result) => {
@@ -35,6 +36,22 @@ ProjectResponsible.getAll = (result) => {
       console.log("projectResponsible: ", res);
       result(null, res);
    });
+};
+
+ProjectResponsible.findByIdUser = (userId, result) => {
+   sql.query(
+      `SELECT *,DATE_FORMAT(project.startDate,'%d/%m/%Y') AS startDateFormatted , DATE_FORMAT(project.endDate,'%d/%m/%Y') AS endDateFormatted FROM projectResponsible  JOIN project ON project.idProject = projectResponsible.projectId  WHERE userId = ${userId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         console.log("found projectResponsible: ", res);
+         result(null, res);
+      }
+   );
 };
 
 ProjectResponsible.findById = (projectResponsibleId, result) => {
