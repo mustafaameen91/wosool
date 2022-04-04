@@ -9,6 +9,12 @@ exports.create = (req, res) => {
 
    const project = new Project({
       projectName: req.body.projectName,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      totalCost: req.body.totalCost,
+      note: req.body.note,
+      workPlace: req.body.workPlace,
+      createdBy: req.body.createdBy,
    });
 
    Project.create(project, (err, data) => {

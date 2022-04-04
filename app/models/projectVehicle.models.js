@@ -1,7 +1,15 @@
 const sql = require("./db.js");
 
 const ProjectVehicle = function (projectVehicle) {
-   this.projectVehicleName = projectVehicle.projectVehicleName;
+   vehicleType = projectVehicle.vehicleType;
+   fromTime = projectVehicle.fromTime;
+   toTime = projectVehicle.toTime;
+   number = projectVehicle.number;
+   dailyCost = projectVehicle.dailyCost;
+   driverName = projectVehicle.driverName;
+   phone = projectVehicle.phone;
+   reportId = projectVehicle.reportId;
+   createdBy = projectVehicle.createdBy;
 };
 
 ProjectVehicle.create = (newProjectVehicle, result) => {
@@ -35,6 +43,22 @@ ProjectVehicle.getAll = (result) => {
       console.log("projectVehicle: ", res);
       result(null, res);
    });
+};
+
+ProjectVehicle.findByIdReport = (reportId, result) => {
+   sql.query(
+      `SELECT * FROM projectVehicle WHERE reportId = ${reportId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         console.log("found projectVehicle: ", res);
+         result(null, res);
+      }
+   );
 };
 
 ProjectVehicle.findById = (projectVehicleId, result) => {

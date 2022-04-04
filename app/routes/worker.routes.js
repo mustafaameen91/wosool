@@ -7,6 +7,8 @@ module.exports = (app) => {
 
    app.get("/api/worker/:id", worker.findOne);
 
+   app.get("/api/workerReport/:id", worker.findOneByReportId);
+
    app.put("/api/worker/:id", worker.update);
 
    app.delete("/api/worker/:id", worker.delete);

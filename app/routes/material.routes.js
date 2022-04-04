@@ -7,6 +7,8 @@ module.exports = (app) => {
 
    app.get("/api/material/:id", material.findOne);
 
+   app.get("/api/materialReport/:id", material.findOneByReportId);
+
    app.put("/api/material/:id", material.update);
 
    app.delete("/api/material/:id", material.delete);

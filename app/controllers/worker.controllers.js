@@ -9,6 +9,12 @@ exports.create = (req, res) => {
 
    const worker = new Worker({
       workerName: req.body.workerName,
+      cost: req.body.cost,
+      fromTime: req.body.fromTime,
+      toTime: req.body.toTime,
+      workerDuration: req.body.workerDuration,
+      reportId: req.body.reportId,
+      createdBy: req.body.createdBy,
    });
 
    Worker.create(worker, (err, data) => {
@@ -28,6 +34,13 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
    Worker.findById(req.params.id, (err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByReportId = (req, res) => {
+   Worker.findByIdReport(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

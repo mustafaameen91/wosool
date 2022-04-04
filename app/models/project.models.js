@@ -2,6 +2,12 @@ const sql = require("./db.js");
 
 const Project = function (project) {
    this.projectName = project.projectName;
+   this.startDate = project.startDate;
+   this.endDate = project.endDate;
+   this.totalCost = project.totalCost;
+   this.note = project.note;
+   this.workPlace = project.workPlace;
+   this.createdBy = project.createdBy;
 };
 
 Project.create = (newProject, result) => {
@@ -18,21 +24,24 @@ Project.create = (newProject, result) => {
 };
 
 Project.getAll = (result) => {
-   sql.query("SELECT * FROM project", (err, res) => {
-      if (err) {
-         console.log("error: ", err);
-         result(null, err);
-         return;
-      }
+   sql.query(
+      "SELECT * ,DATE_FORMAT(startDate,'%d/%m/%Y') AS startDateFormatted , DATE_FORMAT(endDate,'%d/%m/%Y') AS endDateFormatted FROM project",
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+         }
 
-      console.log("project: ", res);
-      result(null, res);
-   });
+         console.log("project: ", res);
+         result(null, res);
+      }
+   );
 };
 
 Project.findById = (projectId, result) => {
    sql.query(
-      `SELECT * FROM project WHERE idProject = ${projectId}`,
+      `SELECT *  FROM project WHERE idProject = ${projectId}`,
       (err, res) => {
          if (err) {
             console.log("error: ", err);

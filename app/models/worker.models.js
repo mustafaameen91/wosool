@@ -2,6 +2,12 @@ const sql = require("./db.js");
 
 const Worker = function (worker) {
    this.workerName = worker.workerName;
+   this.cost = worker.cost;
+   this.fromTime = worker.fromTime;
+   this.toTime = worker.toTime;
+   this.workerDuration = worker.workerDuration;
+   this.reportId = worker.reportId;
+   this.createdBy = worker.createdBy;
 };
 
 Worker.create = (newWorker, result) => {
@@ -28,6 +34,20 @@ Worker.getAll = (result) => {
       console.log("worker: ", res);
       result(null, res);
    });
+};
+
+Worker.findByIdReport = (reportId, result) => {
+   sql.query(
+      `SELECT * FROM worker WHERE reportId = ${reportId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+         result(null, res);
+      }
+   );
 };
 
 Worker.findById = (workerId, result) => {

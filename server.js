@@ -29,6 +29,7 @@ app.use(
       verbose: true,
    })
 );
+app.use(staticFileMiddleware);
 
 app.listen(5520, () => {
    console.log("Server is running on port 5520");

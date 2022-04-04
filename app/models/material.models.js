@@ -1,7 +1,14 @@
 const sql = require("./db.js");
 
 const Material = function (material) {
-   this.materialName = material.materialName;
+   this.materialType = material.materialType;
+   this.quantity = material.quantity;
+   this.price = material.price;
+   this.totalPrice = material.totalPrice;
+   this.driverName = material.driverName;
+   this.note = material.note;
+   this.reportId = material.reportId;
+   this.createdBy = material.createdBy;
 };
 
 Material.create = (newMaterial, result) => {
@@ -28,6 +35,22 @@ Material.getAll = (result) => {
       console.log("material: ", res);
       result(null, res);
    });
+};
+
+Material.findByIdReport = (reportId, result) => {
+   sql.query(
+      `SELECT * FROM material WHERE reportId = ${reportId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         console.log("found material: ", res);
+         result(null, res);
+      }
+   );
 };
 
 Material.findById = (materialId, result) => {

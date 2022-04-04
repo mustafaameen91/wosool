@@ -8,7 +8,14 @@ exports.create = (req, res) => {
    }
 
    const material = new Material({
-      materialName: req.body.materialName,
+      materialType: req.body.materialType,
+      quantity: req.body.quantity,
+      price: req.body.price,
+      totalPrice: req.body.totalPrice,
+      driverName: req.body.driverName,
+      note: req.body.note,
+      reportId: req.body.reportId,
+      createdBy: req.body.createdBy,
    });
 
    Material.create(material, (err, data) => {
@@ -21,6 +28,13 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
    Material.getAll((err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByReportId = (req, res) => {
+   Material.findByIdReport(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

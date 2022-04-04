@@ -8,7 +8,14 @@ exports.create = (req, res) => {
    }
 
    const expense = new Expense({
-      expenseName: req.body.expenseName,
+      expenseType: req.body.expenseType,
+      cost: req.body.cost,
+      totalCost: req.body.totalCost,
+      phone: req.body.phone,
+      note: req.body.note,
+      number: req.body.number,
+      reportId: req.body.reportId,
+      createdBy: req.body.createdBy,
    });
 
    Expense.create(expense, (err, data) => {
@@ -21,6 +28,13 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
    Expense.getAll((err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByReportId = (req, res) => {
+   Expense.findByIdReport(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

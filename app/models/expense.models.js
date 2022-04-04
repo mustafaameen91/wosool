@@ -1,7 +1,14 @@
 const sql = require("./db.js");
 
 const Expense = function (expense) {
-   this.expenseName = expense.expenseName;
+   this.expenseType = expense.expenseType;
+   this.cost = expense.cost;
+   this.totalCost = expense.totalCost;
+   this.phone = expense.phone;
+   this.note = expense.note;
+   this.number = expense.number;
+   this.reportId = expense.reportId;
+   this.createdBy = expense.createdBy;
 };
 
 Expense.create = (newExpense, result) => {
@@ -28,6 +35,21 @@ Expense.getAll = (result) => {
       console.log("expense: ", res);
       result(null, res);
    });
+};
+
+Expense.findByIdReport = (reportId, result) => {
+   sql.query(
+      `SELECT * FROM expense WHERE reportId = ${reportId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+         console.log("found expense: ", res);
+         result(null, res);
+      }
+   );
 };
 
 Expense.findById = (expenseId, result) => {

@@ -8,10 +8,20 @@ exports.create = (req, res) => {
    }
 
    const projectVehicle = new ProjectVehicle({
-      projectVehicleName: req.body.projectVehicleName,
+      vehicleType: req.body.vehicleType,
+      fromTime: req.body.fromTime,
+      toTime: req.body.toTime,
+      number: req.body.number,
+      dailyCost: req.body.dailyCost,
+      driverName: req.body.driverName,
+      phone: req.body.phone,
+      reportId: req.body.reportId,
+      createdBy: req.body.createdBy,
    });
 
-   ProjectVehicle.create(projectVehicle, (err, data) => {
+   console.log(projectVehicle);
+
+   ProjectVehicle.create(req.body, (err, data) => {
       if (err) res.status(err.code).send(err);
       else {
          res.send(data);
@@ -28,6 +38,13 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
    ProjectVehicle.findById(req.params.id, (err, data) => {
+      if (err) res.status(err.code).send(err);
+      else res.send(data);
+   });
+};
+
+exports.findOneByReportId = (req, res) => {
+   ProjectVehicle.findByIdReport(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

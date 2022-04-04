@@ -8,7 +8,14 @@ exports.create = (req, res) => {
    }
 
    const report = new Report({
-      reportName: req.body.reportName,
+      projectId: req.body.projectId,
+      workPlace: req.body.workPlace,
+      documentNumber: req.body.documentNumber,
+      workDuration: req.body.workDuration,
+      day: req.body.day,
+      reportDate: req.body.reportDate,
+      subCategoryId: req.body.subCategoryId,
+      createdBy: req.body.createdBy,
    });
 
    Report.create(report, (err, data) => {
@@ -27,7 +34,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOneByProjectId = (req, res) => {
-   Report.findById(req.params.id, (err, data) => {
+   Report.findByIdOfProject(req.params.id, (err, data) => {
       if (err) res.status(err.code).send(err);
       else res.send(data);
    });

@@ -1,7 +1,14 @@
 const sql = require("./db.js");
 
 const Report = function (report) {
-   this.reportName = report.reportName;
+   this.projectId = report.projectId;
+   this.workPlace = report.workPlace;
+   this.documentNumber = report.documentNumber;
+   this.reportDate = report.reportDate;
+   this.workDuration = report.workDuration;
+   this.day = report.day;
+   this.subCategoryId = report.subCategoryId;
+   this.createdBy = report.createdBy;
 };
 
 Report.create = (newReport, result) => {
@@ -28,6 +35,21 @@ Report.getAll = (result) => {
       console.log("report: ", res);
       result(null, res);
    });
+};
+
+Report.findByIdOfProject = (projectId, result) => {
+   sql.query(
+      `SELECT * ,DATE_FORMAT(reportDate,'%d/%m/%Y') AS reportDateFormatted FROM report JOIN subCategory JOIN category JOIN project ON project.idProject = report.projectId AND category.idCategory = subCategory.categoryId AND report.subCategoryId = subCategory.idSubCategory WHERE projectId = ${projectId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         result(null, res);
+      }
+   );
 };
 
 Report.findById = (reportId, result) => {
