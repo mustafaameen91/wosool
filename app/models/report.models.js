@@ -48,7 +48,7 @@ Report.findByIdOfProject = (projectId, result) => {
          }
 
          result(null, res);
-      }
+      },
    );
 };
 
@@ -69,7 +69,7 @@ Report.findById = (reportId, result) => {
          }
 
          result({ kind: "not_found" }, null);
-      }
+      },
    );
 };
 
@@ -91,7 +91,7 @@ Report.updateById = (id, report, result) => {
 
          console.log("updated report: ", { id: id, ...report });
          result(null, { id: id, ...report });
-      }
+      },
    );
 };
 

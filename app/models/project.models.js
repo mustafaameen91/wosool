@@ -35,7 +35,7 @@ Project.getAll = (result) => {
 
          console.log("project: ", res);
          result(null, res);
-      }
+      },
    );
 };
 
@@ -56,7 +56,7 @@ Project.findById = (projectId, result) => {
          }
 
          result({ kind: "not_found" }, null);
-      }
+      },
    );
 };
 
@@ -78,26 +78,43 @@ Project.updateById = (id, project, result) => {
 
          console.log("updated project: ", { id: id, ...project });
          result(null, { id: id, ...project });
-      }
+      },
    );
 };
 
 Project.remove = (id, result) => {
-   sql.query("DELETE FROM project WHERE idProject = ?", id, (err, res) => {
-      if (err) {
-         console.log("error: ", err);
-         result(null, err);
-         return;
-      }
+   sql.query(
+      `SELECT * FROM project JOIN report ON report.projectId = project.idProject WHERE project.idProject = ${id}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         } else if (res.length > 0) {
+            result({ kind: "found_many", code: 600 }, null);
+         } else {
+            sql.query(
+               "DELETE FROM project WHERE idProject = ?",
+               id,
+               (err, res) => {
+                  if (err) {
+                     console.log("error: ", err);
+                     result(null, err);
+                     return;
+                  }
 
-      if (res.affectedRows == 0) {
-         result({ kind: "not_found" }, null);
-         return;
-      }
+                  if (res.affectedRows == 0) {
+                     result({ kind: "not_found" }, null);
+                     return;
+                  }
 
-      console.log("deleted project with id: ", id);
-      result(null, res);
-   });
+                  console.log("deleted project with id: ", id);
+                  result(null, res);
+               },
+            );
+         }
+      },
+   );
 };
 
 module.exports = Project;

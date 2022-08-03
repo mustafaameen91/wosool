@@ -20,17 +20,19 @@ require("./app/routes/projectVehicle.routes.js")(app);
 require("./app/routes/report.routes.js")(app);
 require("./app/routes/subCategory.routes.js")(app);
 require("./app/routes/worker.routes.js")(app);
+require("./app/routes/administrativeExpenses.routes.js")(app);
+require("./app/routes/expensesType.routes.js")(app);
 
 const staticFileMiddleware = express.static(__dirname + "/dist");
 app.use(staticFileMiddleware);
 app.use(
-   history({
-      disableDotRule: true,
-      verbose: true,
-   })
+  history({
+    disableDotRule: true,
+    verbose: true,
+  })
 );
 app.use(staticFileMiddleware);
 
 app.listen(5520, () => {
-   console.log("Server is running on port 5520");
+  console.log("Server is running on port 5520");
 });
